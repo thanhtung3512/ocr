@@ -36,9 +36,9 @@ func main() {
 		fmt.Fprintf(w, text)
 	})
 
-	http.Handle("/ocr", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "OCR")
-	})
+//	http.Handle("/ocr", func(w http.ResponseWriter, r *http.Request) {
+//		fmt.Fprintf(w, "OCR")
+//	})
 
 	listenAddr := fmt.Sprintf(":%d", http_port)
 	http.ListenAndServe(listenAddr , nil)
