@@ -41,5 +41,6 @@ func main() {
 	})
 
 	listenAddr := fmt.Sprintf(":%d", http_port)
+	http.ListenAndServe(":" + http_port, nil)
 
 }
