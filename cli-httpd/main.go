@@ -36,7 +36,7 @@ func main() {
 		fmt.Fprintf(w, text)
 	})
 
-	http.HandleFunc("/ocr", func(w http.ResponseWriter, r *http.Request) {
+	http.Handle("/ocr", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "OCR")
 	})
 
