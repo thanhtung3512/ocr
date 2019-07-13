@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"net/http"
+	"github.com/thanhtung3512/ocr"
 
 )
 
