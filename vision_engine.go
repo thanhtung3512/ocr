@@ -2,6 +2,7 @@ package ocrworker
 import (
         "context"
         "bytes"
+        "strings"
         "github.com/couchbaselabs/logg"
         "encoding/json"
 
@@ -57,7 +58,7 @@ func NaturalLanguageUnderstanding(text string, license License) (*nlu.AnalysisRe
 	)
 	failOnError("Failed to get IBM API response: %v", err)
 	keywords := req.GetAnalyzeResult(response)
-	return keywords, nil
+	return keywords, err
 }
 
 func Vision(ocrRequest OcrRequest) ([]*pb.EntityAnnotation, error) {
@@ -85,13 +86,19 @@ func (m VisionEngine) ProcessRequest(ocrRequest OcrRequest) (OcrResult, error) {
 
     // Creates a IBM API NLP client
     licenses := []License{}
-	l1 := License{"fbb08187-7a55-4eb8-a859-b6b4b4127e5b", "QcOZNFoifw2e"}
-	licenses = append(licenses, l1)
+	licenses = append(licenses, License{"fbb08187-7a55-4eb8-a859-b6b4b4127e5", "QcOZNFoifw2e"})
+	licenses = append(licenses, License{"a02d69a0-6f92-4755-95d3-cafa5a9be186", "iEeWsosMO2uE"})
 
 	for _, license := range licenses {
 		keywords, err := NaturalLanguageUnderstanding(text, license)
-		failOnError("Failed to use NLU: %v", err)
-		visionEngine.Keywords = keywords
+		if err != nil{
+			if strings.Contains(err.Error(),"Code: 422") || strings.Contains(err.Error(),"Code: 400") || strings.Contains(err.Error(),"unsupported text language") || strings.Contains(err.Error(),"unknown language detected") {
+				break
+			}
+		} else {
+			visionEngine.Keywords = keywords
+			break
+		}
 	}
 
 	// Put together
