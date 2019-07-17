@@ -13,29 +13,29 @@ services:
 
   # Start transformation worker
   strokewidthtransform:
-    image: tleyden5iwx/open-ocr-preprocessor
+    image: thanhtung3512/open-ocr-preprocessor
     volumes:
-      - ./scripts/:/opt/open-ocr/
+      - ./scripts/:/opt/ocr/
     dns: ["8.8.8.8"]
     depends_on:
       - rabbitmq
-    command: "/opt/open-ocr/open-ocr-preprocessor -amqp_uri amqp://admin:Phaish9ohbaidei6oole@rabbitmq/ -preprocessor stroke-width-transform"
+    command: "/opt/ocr/open-ocr-preprocessor -amqp_uri amqp://admin:Phaish9ohbaidei6oole@rabbitmq/ -preprocessor stroke-width-transform"
 
   # Start OCR worker
   openocrworker:
-    image: tleyden5iwx/${OPEN_OCR_INSTANCE}
+    image: thanhtung3512/${OPEN_OCR_INSTANCE}
     volumes:
-      - ./scripts/:/opt/open-ocr/
+      - ./scripts/:/opt/ocr/
     dns: ["8.8.8.8"]
     depends_on:
       - rabbitmq
-    command: "/opt/open-ocr/open-ocr-worker -amqp_uri amqp://admin:Phaish9ohbaidei6oole@rabbitmq/"
+    command: "/opt/ocr/open-ocr-worker -amqp_uri amqp://admin:Phaish9ohbaidei6oole@rabbitmq/"
 
   # Start http server
   openocr:
-    image: tleyden5iwx/${OPEN_OCR_INSTANCE}
+    image: thanhtung3512/${OPEN_OCR_INSTANCE}
     volumes:
-      - ./scripts/:/opt/open-ocr/
+      - ./scripts/:/opt/ocr/
     ports:
       - "9292:9292"
     dns: ["8.8.8.8"]
@@ -43,4 +43,4 @@ services:
       - rabbitmq
       - openocrworker
       - strokewidthtransform
-    command: "/opt/open-ocr/open-ocr-httpd -amqp_uri amqp://admin:Phaish9ohbaidei6oole@rabbitmq/ -http_port 9292"
+    command: "/opt/ocr/open-ocr-httpd -amqp_uri amqp://admin:Phaish9ohbaidei6oole@rabbitmq/ -http_port 9292"

@@ -7,7 +7,8 @@ import (
 	"net/http"
 
 	"github.com/couchbaselabs/logg"
-	"github.com/tleyden/open-ocr"
+	//"github.com/tleyden/open-ocr"
+	"github.com/thanhtung3512/ocr"
 )
 
 // This assumes that there is a worker running
@@ -29,7 +30,7 @@ func main() {
 		flag.IntVar(
 			&http_port,
 			"http_port",
-			8080,
+			8888,
 			"The http port to listen on, eg, 8081",
 		)
 
