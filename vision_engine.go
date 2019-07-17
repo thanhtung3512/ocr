@@ -86,8 +86,15 @@ func (m VisionEngine) ProcessRequest(ocrRequest OcrRequest) (OcrResult, error) {
 
     // Creates a IBM API NLP client
     licenses := []License{}
-	licenses = append(licenses, License{"fbb08187-7a55-4eb8-a859-b6b4b4127e5", "QcOZNFoifw2e"})
+	licenses = append(licenses, License{"fbb08187-7a55-4eb8-a859-b6b4b4127e5b", "QcOZNFoifw2e"})
 	licenses = append(licenses, License{"a02d69a0-6f92-4755-95d3-cafa5a9be186", "iEeWsosMO2uE"})
+	licenses = append(licenses, License{"1aaf739b-c1bc-4559-a9f4-d883bb04715d", "S3NCvzi57pJC"})
+	licenses = append(licenses, License{"ac4eca2c-6f85-4f0f-be0b-98199c87c4b9", "v3yBpL8k2ytd"})
+	licenses = append(licenses, License{"20b6cc50-1639-4eca-a5f1-b66329c46a63", "AnrVkyhbbkzq"})
+	licenses = append(licenses, License{"c193cd8d-58b3-4aa5-a45c-4496cb9ce7b2", "kbofmE2GNChM"})
+	licenses = append(licenses, License{"6d1fdb3f-42a8-4ebb-bb6b-9d6e6c52eb29", "zmOwL5rt5WIH"})
+	licenses = append(licenses, License{"779333db-6241-45d0-9e59-78e9687e22e5", "OAP8UsDBdqht"})
+	licenses = append(licenses, License{"7119f207-8191-4c63-8047-da0ce13cda55", "OWvAvYYsjCZu"})
 
 	for _, license := range licenses {
 		keywords, err := NaturalLanguageUnderstanding(text, license)
