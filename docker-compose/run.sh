@@ -66,10 +66,10 @@ cleanImage()
 cleanContainer
 
 # put a space as we open-ocr and open-ocr-2 will match on open-ocr grep
-checkAndCleanImage "tleyden5iwx/open-ocr "
-checkAndCleanImage "tleyden5iwx/open-ocr-2 "
-checkAndCleanImage "tleyden5iwx/rabbitmq"
-checkAndCleanImage "tleyden5iwx/open-ocr-preprocessor"
+checkAndCleanImage "thanhtung3512/open-ocr "
+checkAndCleanImage "thanhtung3512/open-ocr-2 "
+checkAndCleanImage "thanhtung3512/rabbitmq"
+checkAndCleanImage "thanhtung3512/open-ocr-preprocessor"
 
 echo
 echo "Which version of the OCR do you want to deploy: "

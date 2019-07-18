@@ -26,10 +26,13 @@ services:
     image: thanhtung3512/${OPEN_OCR_INSTANCE}
     volumes:
       - ./scripts/:/opt/ocr/
+      - $HOME/:/opt/api/
     dns: ["8.8.8.8"]
     depends_on:
       - rabbitmq
     command: "/opt/ocr/open-ocr-worker -amqp_uri amqp://admin:Phaish9ohbaidei6oole@rabbitmq/"
+    environment: 
+      GOOGLE_APPLICATION_CREDENTIALS: "/opt/api/apivision.json"
 
   # Start http server
   openocr:
@@ -37,10 +40,10 @@ services:
     volumes:
       - ./scripts/:/opt/ocr/
     ports:
-      - "9292:9292"
+      - "8888:8888"
     dns: ["8.8.8.8"]
     depends_on:
       - rabbitmq
       - openocrworker
       - strokewidthtransform
-    command: "/opt/ocr/open-ocr-httpd -amqp_uri amqp://admin:Phaish9ohbaidei6oole@rabbitmq/ -http_port 9292"
+    command: "/opt/ocr/open-ocr-httpd -amqp_uri amqp://admin:Phaish9ohbaidei6oole@rabbitmq/ -http_port 8888"
