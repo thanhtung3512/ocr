@@ -113,6 +113,6 @@ func (s *OcrHttpMultipartHandler) ServeHTTP(w http.ResponseWriter, req *http.Req
 
 	logg.LogTo("OCR_HTTP", "ocrResult: %v", ocrResult)
 
-	fmt.Fprintf(w, ocrResult.Text)
+	fmt.Fprint(w, ocrResult.Text)
 
 }
