@@ -13,11 +13,9 @@ import (
   		nlu "github.com/watson-developer-cloud/go-sdk/naturallanguageunderstandingv1"
 )
 
-const VISION_ENGINE_RESPONSE = "vision engine decoder response"
-
 type VisionEngine struct {
 	Annotations 		[]*pb.EntityAnnotation
-	Keywords 			*nlu.AnalysisResults
+	Tags 				*nlu.AnalysisResults
 }
 
 type License struct {
@@ -61,8 +59,8 @@ func NaturalLanguageUnderstanding(text string, license License) (*nlu.AnalysisRe
 		},
 	)
 	failOnError("Failed to get IBM API response: %v", err)
-	keywords := req.GetAnalyzeResult(response)
-	return keywords, err
+	tags := req.GetAnalyzeResult(response)
+	return tags, err
 }
 
 func Vision(ocrRequest OcrRequest) ([]*pb.EntityAnnotation, error) {
@@ -101,23 +99,19 @@ func (m VisionEngine) ProcessRequest(ocrRequest OcrRequest) (OcrResult, error) {
 	licenses = append(licenses, License{"7119f207-8191-4c63-8047-da0ce13cda55", "OWvAvYYsjCZu"})
 
 	for _, license := range licenses {
-		keywords, err := NaturalLanguageUnderstanding(text, license)
+		tags, err := NaturalLanguageUnderstanding(text, license)
 		if err != nil{
 			if strings.Contains(err.Error(),"Code: 422") || strings.Contains(err.Error(),"Code: 400") || strings.Contains(err.Error(),"unsupported text language") || strings.Contains(err.Error(),"unknown language detected") {
 				break
 			}
 		} else {
-			visionEngine.Keywords = keywords
+			visionEngine.Tags = tags
 			break
 		}
 	}
-
-	// Put together
-    //visionEngine := VisionEngine{Annotations: texts, Keywords: keywords}
 
     res, err := json.Marshal(visionEngine)
     failOnError("Failed to convert to json: %v", err)
 
 	return OcrResult{Text: string(res)}, nil
-	//return OcrResult{Text: VISION_ENGINE_RESPONSE}, nil
 }
