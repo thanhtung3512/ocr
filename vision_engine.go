@@ -46,14 +46,18 @@ func NaturalLanguageUnderstanding(text string, license License) (*nlu.AnalysisRe
 
 	response, err := req.Analyze(
 		&nlu.AnalyzeOptions{
-		  Text: &text,
-		  Features: &nlu.Features{
-		    Keywords: &nlu.KeywordsOptions{
-		      Sentiment: &sentiment,
-		      Emotion: &emotion,
-		      Limit: &limit,
-		    },
-		  },
+			Text: &text,
+			Features: &nlu.Features{
+				Keywords: &nlu.KeywordsOptions{
+					Sentiment: &sentiment,
+					Emotion: &emotion,
+					Limit: &limit,
+				},
+				Entities: &nlu.EntitiesOptions{
+					Sentiment: &sentiment,
+					Limit: &limit,
+				},
+			},
 		},
 	)
 	failOnError("Failed to get IBM API response: %v", err)
