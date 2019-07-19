@@ -39,7 +39,7 @@ func main() {
 
 	// any requests to root, just redirect to main page
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		text := `<h1>OpenOCR is running!<h1> Need <a href="http://www.openocr.net">docs</a>?`
+		text := `<h1>OpenOCR is running!<h1>`
 		fmt.Fprintf(w, text)
 	})
 
