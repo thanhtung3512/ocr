@@ -109,11 +109,12 @@ func (m VisionEngine) ProcessRequest(ocrRequest OcrRequest) (OcrResult, error) {
 				break
 			}
 		}
-	    res, err := json.Marshal(visionEngine)
-	    failOnError("Failed to convert to json: %v", err)
 	}else{
 		visionEngine.Tags = nil
 	}
+    
+    res, err := json.Marshal(visionEngine)
+    failOnError("Failed to convert to json: %v", err)
 
 	return OcrResult{Text: string(res)}, nil
 }
