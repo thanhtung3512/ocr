@@ -85,7 +85,7 @@ func (m VisionEngine) ProcessRequest(ocrRequest OcrRequest) (OcrResult, error) {
     
 	visionEngine := VisionEngine{Annotations: texts}
 
-	if len(texts) > 0 {
+	if err == nil && len(texts) > 0 {
 	    text := texts[0].GetDescription()
 	    // Creates a IBM API NLP client
 	    licenses := []License{}
