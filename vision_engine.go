@@ -124,7 +124,7 @@ func (m VisionEngine) ProcessRequest(ocrRequest OcrRequest) (OcrResult, error) {
 					// error
 				} else {
 					text = translation.Result()
-					visionEngine.Translation = translation
+					visionEngine.Translation = text
 					break
 				}
 			}
