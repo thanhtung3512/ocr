@@ -18,6 +18,7 @@ import (
 type VisionEngine struct {
 	Annotations 		[]*pb.EntityAnnotation
 	Tags 				*nlu.AnalysisResults
+	Translation			string
 }
 
 type License struct {
@@ -123,6 +124,7 @@ func (m VisionEngine) ProcessRequest(ocrRequest OcrRequest) (OcrResult, error) {
 					// error
 				} else {
 					text = translation.Result()
+					visionEngine.Translation = translation
 					break
 				}
 			}
