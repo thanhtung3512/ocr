@@ -124,11 +124,11 @@ func (m VisionEngine) ProcessRequest(ocrRequest OcrRequest) (OcrResult, error) {
 					// error
 				} else {
 					text = translation.Result()
-					visionEngine.Translation = text
 					break
 				}
 			}
 	    }
+	    visionEngine.Translation = text
 
 	    // Creates a IBM API NLP client
 	    licenses := []License{}
