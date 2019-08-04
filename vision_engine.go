@@ -94,7 +94,7 @@ func (m VisionEngine) ProcessRequest(ocrRequest OcrRequest) (OcrResult, error) {
 	if err == nil && len(texts) > 0 {
 	    text := texts[0].GetDescription()
 	    locale := texts[0].GetLocale()
-	    if locale != "en" {
+	    if locale != "en" && locale!="fr" && locale!="de" && locale!="it" && locale!="ja" && locale!="ko" && locale!="es" && locale!="pt"{
 	    	// Create Yandex license
 	    	yandexes := []Yandex{}
 	    	yandexes = append(yandexes, Yandex{"trnsl.1.1.20180312T215833Z.53e8a9545764e42a.05662f448bff7951369fc863f696b7ae10dcae40"})
@@ -117,7 +117,7 @@ func (m VisionEngine) ProcessRequest(ocrRequest OcrRequest) (OcrResult, error) {
 	    	yandexes = append(yandexes, Yandex{"trnsl.1.1.20180312T200205Z.ecbb13c549ef6e65.1984f46d4fbc162048f9fbe76c92cf245bcd0e38"})
 
 	    	for _, yandex := range yandexes {
-	    		tr := translate.New(yandex)
+	    		tr := translate.New(yandex.Key)
 	    		translation, err := tr.Translate("en", text)
 				if err != nil {
 					// error
