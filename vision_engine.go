@@ -154,7 +154,6 @@ func (m VisionEngine) ProcessRequest(ocrRequest OcrRequest) (OcrResult, error) {
 		}
 	}else{
 		visionEngine.Tags = nil
-		visionEngine.Translation = nil
 	}
     
     res, err := json.Marshal(visionEngine)
