@@ -3,7 +3,6 @@ import (
 	"bytes"
 
 	"github.com/tuotoo/qrcode"
-	"github.com/couchbaselabs/logg"
 )
 
 type QREngine struct {
@@ -18,7 +17,7 @@ func (m QREngine) ProcessRequest(ocrRequest OcrRequest) (OcrResult, error) {
 	qrmatrix, err := qrcode.Decode(fi)
 	if err != nil{
     	failOnError("Failed to qr-decode image: %v", err)
-	    return
+	    //return
 	}
 
 	return OcrResult{Text: qrmatrix.Content}, nil
