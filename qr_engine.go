@@ -7,13 +7,6 @@ import (
 )
 
 type QREngine struct {
-	Text			string
-}
-
-func failOnError(msg string, err error) {
-    if err != nil {
-        logg.LogTo("OCR_HTTP", msg, err)
-    }
 }
 
 func (m QREngine) ProcessRequest(ocrRequest OcrRequest) (OcrResult, error) {
