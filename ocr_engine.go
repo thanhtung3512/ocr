@@ -12,6 +12,7 @@ type OcrEngineType int
 const (
 	ENGINE_TESSERACT = OcrEngineType(iota)
 	ENGINE_VISION = OcrEngineType(iota)
+	ENGINE_QR = OcrEngineType(iota)
 	ENGINE_GO_TESSERACT
 	ENGINE_MOCK
 )
