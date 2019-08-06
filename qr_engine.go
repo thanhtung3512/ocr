@@ -9,10 +9,7 @@ type QREngine struct {
 }
 
 func (m QREngine) ProcessRequest(ocrRequest OcrRequest) (OcrResult, error) {
-	fi, err := bytes.NewReader(ocrRequest.ImgBytes)
-	if err != nil{
-    	failOnError("Failed to read image: %v", err)
-	}
+	fi = bytes.NewReader(ocrRequest.ImgBytes)
 
 	qrmatrix, err := qrcode.Decode(fi)
 	if err != nil{
