@@ -26,6 +26,8 @@ func NewOcrEngine(engineType OcrEngineType) OcrEngine {
 		return &MockEngine{}
 	case ENGINE_VISION:
 		return &VisionEngine{}
+	case ENGINE_QR:
+		return &QREngine{}
 //	case ENGINE_TESSERACT:
 //		return &TesseractEngine{}
 	}
@@ -38,6 +40,8 @@ func (e OcrEngineType) String() string {
 		return "ENGINE_MOCK"
 	case ENGINE_VISION:
 		return "ENGINE_VISION"
+	case ENGINE_QR:
+		return "ENGINE_QR"
 	case ENGINE_TESSERACT:
 		return "ENGINE_TESSERACT"
 	case ENGINE_GO_TESSERACT:
@@ -60,6 +64,8 @@ func (e *OcrEngineType) UnmarshalJSON(b []byte) (err error) {
 			*e = ENGINE_GO_TESSERACT
 		case "VISION":
 			*e = ENGINE_VISION
+		case "QR":
+			*e = ENGINE_QR
 		case "MOCK":
 			*e = ENGINE_MOCK
 		default:
