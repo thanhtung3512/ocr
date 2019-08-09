@@ -16,7 +16,7 @@ func (m QREngine) ProcessRequest(ocrRequest OcrRequest) (OcrResult, error) {
 	result, err := qrReader.Decode(bmp, nil)
 	if err != nil{
     	failOnError("Failed to qr-decode image: %v", err)
-	    return OcrResult{Text: string(err)}, nil
+	    return OcrResult{Text: err.Error()}, nil
 	}
 	
 
