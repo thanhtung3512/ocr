@@ -1,6 +1,8 @@
 package ocrworker
 import (
 	"bytes"
+	"image"
+	_ "image/jpeg"
 
 	"github.com/makiuchi-d/gozxing"
 	"github.com/makiuchi-d/gozxing/qrcode"
