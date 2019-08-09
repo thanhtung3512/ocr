@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
 # Start messaging broker
@@ -37,6 +37,8 @@ services:
   # Start http server
   openocr:
     image: thanhtung3512/${OPEN_OCR_INSTANCE}
+    deploy:
+      replicas: 5
     volumes:
       - ./scripts/:/opt/ocr/
     ports:
