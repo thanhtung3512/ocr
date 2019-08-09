@@ -13,7 +13,7 @@ type QREngine struct {
 
 func (m QREngine) ProcessRequest(ocrRequest OcrRequest) (OcrResult, error) {
 	fi := bytes.NewReader(ocrRequest.ImgBytes)
-	img, _, _ := image.Decode(file)
+	img, _, _ := image.Decode(fi)
 	// prepare BinaryBitmap
 	bmp, _ := gozxing.NewBinaryBitmapFromImage(img)
 	qrReader := qrcode.NewQRCodeReader()
