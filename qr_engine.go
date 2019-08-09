@@ -1,9 +1,8 @@
 package ocrworker
 import (
 	"bytes"
-	"strings"
 
-//	"github.com/makiuchi-d/gozxing"
+	"github.com/makiuchi-d/gozxing"
 	"github.com/makiuchi-d/gozxing/qrcode"
 )
 
@@ -11,7 +10,9 @@ type QREngine struct {
 }
 
 func (m QREngine) ProcessRequest(ocrRequest OcrRequest) (OcrResult, error) {
-	bmp := bytes.NewReader(ocrRequest.ImgBytes)
+	fi := bytes.NewReader(ocrRequest.ImgBytes)
+	// prepare BinaryBitmap
+	bmp, _ := gozxing.NewBinaryBitmapFromImage(img)
 	qrReader := qrcode.NewQRCodeReader()
 	result, err := qrReader.Decode(bmp, nil)
 	if err != nil{
@@ -20,5 +21,5 @@ func (m QREngine) ProcessRequest(ocrRequest OcrRequest) (OcrResult, error) {
 	}
 	
 
-	return OcrResult{Text: string(result)}, nil
+	return OcrResult{Text: result.GetText()}, nil
 }
