@@ -3,7 +3,7 @@ import (
 	"bytes"
 	"strings"
 
-	"github.com/makiuchi-d/gozxing"
+//	"github.com/makiuchi-d/gozxing"
 	"github.com/makiuchi-d/gozxing/qrcode"
 )
 
@@ -20,5 +20,5 @@ func (m QREngine) ProcessRequest(ocrRequest OcrRequest) (OcrResult, error) {
 	}
 	
 
-	return OcrResult{Text: result}, nil
+	return OcrResult{Text: string(result)}, nil
 }
