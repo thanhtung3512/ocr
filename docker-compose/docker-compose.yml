@@ -14,6 +14,8 @@ services:
   # Start transformation worker
   strokewidthtransform:
     image: thanhtung3512/open-ocr-preprocessor
+    deploy:
+      replicas: 5
     volumes:
       - ./scripts/:/opt/ocr/
     dns: ["8.8.8.8"]
@@ -24,6 +26,8 @@ services:
   # Start OCR worker
   openocrworker:
     image: thanhtung3512/${OPEN_OCR_INSTANCE}
+    deploy:
+      replicas: 5
     volumes:
       - ./scripts/:/opt/ocr/
       - $HOME/:/opt/api/
