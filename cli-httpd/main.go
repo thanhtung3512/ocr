@@ -38,20 +38,20 @@ func main() {
 	rabbitConfig := ocrworker.DefaultConfigFlagsOverride(flagFunc)
 
 	// any requests to root, just redirect to main page
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		text := `<h1>OpenOCR is running!<h1>`
+	/*http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		text := `<h1>System is running!<h1>`
 		fmt.Fprintf(w, text)
-	})
+	})*/
 
-	http.Handle("/ocr", ocrworker.NewOcrHttpHandler(rabbitConfig))
+	http.Handle("/", ocrworker.NewOcrHttpHandler(rabbitConfig))
 
-	http.Handle("/ocr-file-upload", ocrworker.NewOcrHttpMultipartHandler(rabbitConfig))
+	http.Handle("/file-upload", ocrworker.NewOcrHttpMultipartHandler(rabbitConfig))
 
 	// add a handler to serve up an image from the filesystem.
 	// ignore this, was just something for testing ..
-	http.HandleFunc("/img", func(w http.ResponseWriter, r *http.Request) {
+	/*http.HandleFunc("/img", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "../refactoring.png")
-	})
+	})*/
 
 	listenAddr := fmt.Sprintf(":%d", http_port)
 
