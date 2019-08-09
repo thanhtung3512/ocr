@@ -37,6 +37,10 @@ services:
   # Start http server
   openocr:
     image: thanhtung3512/${OPEN_OCR_INSTANCE}
+    deploy:
+      replicas: 5
+      restart_policy:
+        condition: on-failure
     volumes:
       - ./scripts/:/opt/ocr/
     ports:
