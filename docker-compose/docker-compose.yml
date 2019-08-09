@@ -4,8 +4,6 @@ services:
 # Start messaging broker
   rabbitmq:
     image: rabbitmq:3.6.5-management
-    deploy:
-      replicas: 5
     ports:
       - "5672:5672"
       - "15672:15672" #Management Server
@@ -16,8 +14,6 @@ services:
   # Start transformation worker
   strokewidthtransform:
     image: thanhtung3512/open-ocr-preprocessor
-    deploy:
-      replicas: 5
     volumes:
       - ./scripts/:/opt/ocr/
     dns: ["8.8.8.8"]
@@ -28,8 +24,6 @@ services:
   # Start OCR worker
   openocrworker:
     image: thanhtung3512/${OPEN_OCR_INSTANCE}
-    deploy:
-      replicas: 5
     volumes:
       - ./scripts/:/opt/ocr/
       - $HOME/:/opt/api/
