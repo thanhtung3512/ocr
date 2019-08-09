@@ -10,9 +10,9 @@ type QREngine struct {
 }
 
 func (m QREngine) ProcessRequest(ocrRequest OcrRequest) (OcrResult, error) {
-	fi := bytes.NewReader(ocrRequest.ImgBytes)
+	bmp := bytes.NewReader(ocrRequest.ImgBytes)
 	// prepare BinaryBitmap
-	bmp, _ := gozxing.NewBinaryBitmapFromImage(fi)
+	//bmp, _ := gozxing.NewBinaryBitmapFromImage(fi)
 	qrReader := qrcode.NewQRCodeReader()
 	result, err := qrReader.Decode(bmp, nil)
 	if err != nil{
