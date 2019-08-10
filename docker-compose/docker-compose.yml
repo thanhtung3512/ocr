@@ -14,8 +14,10 @@ services:
   # Start transformation worker
   strokewidthtransform:
     image: thanhtung3512/open-ocr-preprocessor
+    deploy:
+      replicas: 5
     volumes:
-      - ./scripts/:/opt/ocr/
+      - /var/ocr/docker-compose/scripts/:/opt/ocr/
     dns: ["8.8.8.8"]
     depends_on:
       - rabbitmq
@@ -24,15 +26,16 @@ services:
   # Start OCR worker
   openocrworker:
     image: thanhtung3512/${OPEN_OCR_INSTANCE}
+    deploy:
+      replicas: 5
     volumes:
-      - ./scripts/:/opt/ocr/
-      - $HOME/:/opt/api/
+      - /var/ocr/docker-compose/scripts/:/opt/ocr/
     dns: ["8.8.8.8"]
     depends_on:
       - rabbitmq
     command: "/opt/ocr/open-ocr-worker -amqp_uri amqp://admin:Phaish9ohbaidei6oole@rabbitmq/"
     environment: 
-      GOOGLE_APPLICATION_CREDENTIALS: "/opt/api/apivision.json"
+      GOOGLE_APPLICATION_CREDENTIALS: "/opt/ocr/apivision.json"
 
   # Start http server
   openocr:
@@ -40,7 +43,7 @@ services:
     deploy:
       replicas: 5
     volumes:
-      - /var/ocr/scripts/:/opt/ocr/
+      - /var/ocr/docker-compose/scripts/:/opt/ocr/
     ports:
       - "8888:8888"
     dns: ["8.8.8.8"]
