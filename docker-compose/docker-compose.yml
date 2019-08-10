@@ -4,8 +4,6 @@ services:
 # Start messaging broker
   rabbitmq:
     image: rabbitmq:3.6.5-management
-    deploy:
-      replicas: 2
     ports:
       - "5672:5672"
       - "15672:15672" #Management Server
@@ -16,10 +14,8 @@ services:
   # Start transformation worker
   strokewidthtransform:
     image: thanhtung3512/open-ocr-preprocessor
-    deploy:
-      replicas: 5
     volumes:
-      - /var/ocr/docker-compose/scripts/:/opt/ocr/
+      - ./scripts/:/opt/ocr/
     dns: ["8.8.8.8"]
     depends_on:
       - rabbitmq
@@ -28,16 +24,15 @@ services:
   # Start OCR worker
   openocrworker:
     image: thanhtung3512/${OPEN_OCR_INSTANCE}
-    deploy:
-      replicas: 5
     volumes:
-      - /var/ocr/docker-compose/scripts/:/opt/ocr/
+      - ./scripts/:/opt/ocr/
+      - $HOME/:/opt/api/
     dns: ["8.8.8.8"]
     depends_on:
       - rabbitmq
     command: "/opt/ocr/open-ocr-worker -amqp_uri amqp://admin:Phaish9ohbaidei6oole@rabbitmq/"
     environment: 
-      GOOGLE_APPLICATION_CREDENTIALS: "/opt/ocr/apivision.json"
+      GOOGLE_APPLICATION_CREDENTIALS: "/opt/api/apivision.json"
 
   # Start http server
   openocr:
