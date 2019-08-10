@@ -4,6 +4,8 @@ services:
 # Start messaging broker
   rabbitmq:
     image: rabbitmq:3.6.5-management
+    deploy:
+      replicas: 2
     ports:
       - "5672:5672"
       - "15672:15672" #Management Server
