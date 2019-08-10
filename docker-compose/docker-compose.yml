@@ -40,7 +40,7 @@ services:
     deploy:
       replicas: 5
     volumes:
-      - $HOME/ocr/scripts/:/opt/ocr/
+      - /var/ocr/scripts/:/opt/ocr/
     ports:
       - "8888:8888"
     dns: ["8.8.8.8"]
