@@ -81,6 +81,16 @@ func (w OcrRpcWorker) Run() error {
 		return err
 	}
 
+	// set QoS
+	err = w.channel.Qos(
+		1,     // prefetch count
+		0,     // prefetch size
+		false, // global
+	)
+	if err != nil {
+		return err
+	}
+
 	logg.LogTo("OCR_WORKER", "binding to: %v", w.rabbitConfig.RoutingKey)
 
 	if err = w.channel.QueueBind(
