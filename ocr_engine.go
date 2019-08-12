@@ -29,8 +29,8 @@ func NewOcrEngine(engineType OcrEngineType) OcrEngine {
 		return &VisionEngine{}
 	case ENGINE_QR:
 		return &QREngine{}
-//	case ENGINE_TESSERACT:
-//		return &TesseractEngine{}
+	case ENGINE_TESSERACT:
+		return &TesseractEngine{}
 	}
 	return nil
 }

@@ -92,16 +92,6 @@ func (w OcrRpcWorker) Run() error {
 	); err != nil {
 		return err
 	}
-	
-	// // set QoS
-	// err = w.channel.Qos(
-	// 	1,     // prefetch count
-	// 	0,     // prefetch size
-	// 	false, // global
-	// )
-	// if err != nil {
-	// 	return err
-	// }
 
 	logg.LogTo("OCR_WORKER", "Queue bound to Exchange, starting Consume (consumer tag %q)", tag)
 	deliveries, err := w.channel.Consume(
