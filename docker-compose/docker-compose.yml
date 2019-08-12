@@ -3,7 +3,6 @@ version: '3'
 services:
 # Start messaging broker
   rabbitmq:
-    tty: true
     image: rabbitmq:3.6.5-management
     ports:
       - "5672:5672"
@@ -11,7 +10,7 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: "admin"
       RABBITMQ_DEFAULT_PASS: "Phaish9ohbaidei6oole"
-      RABBITMQ_DISK_FREE_LIMIT: "1GB"
+      #RABBITMQ_DISK_FREE_LIMIT: "1GB"
 
   # Start transformation worker
   strokewidthtransform:
