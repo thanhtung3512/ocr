@@ -3,6 +3,7 @@ version: '3'
 services:
 # Start messaging broker
   rabbitmq:
+    tty: true
     image: rabbitmq:3.6.5-management
     ports:
       - "5672:5672"
