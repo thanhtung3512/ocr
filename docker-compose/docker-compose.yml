@@ -10,6 +10,7 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: "admin"
       RABBITMQ_DEFAULT_PASS: "Phaish9ohbaidei6oole"
+      RABBITMQ_DISK_FREE_LIMIT: "1000MB"
 
   # Start transformation worker
   strokewidthtransform:
