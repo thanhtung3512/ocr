@@ -15,8 +15,6 @@ services:
   # Start transformation worker
   strokewidthtransform:
     image: thanhtung3512/open-ocr-preprocessor
-    deploy:
-      replicas: 2
     volumes:
       - /var/ocr/docker-compose/scripts/:/opt/ocr/
     dns: ["8.8.8.8"]
