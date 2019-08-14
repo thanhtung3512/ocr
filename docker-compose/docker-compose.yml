@@ -2,9 +2,9 @@ version: '3.7'
 
 services:
 # Start messaging broker
-  master-rabbitmq:
+  masterrabbitmq:
     image: rabbitmq:3.6.5-management
-    hostname: "master-rabbitmq"
+    hostname: "masterrabbitmq"
     deploy: 
       mode: global
       placement:
@@ -18,17 +18,17 @@ services:
       RABBITMQ_DEFAULT_USER: "admin"
       RABBITMQ_DEFAULT_PASS: "Phaish9ohbaidei6oole"
       #RABBITMQ_DISK_FREE_LIMIT: "1GB"
-  slave-rabbitmq:
+  slaverabbitmq:
     image: rabbitmq:3.6.5-management
-    hostname: "slave-rabbitmq"
+    hostname: "slaverabbitmq"
     deploy:
       mode: global
       placement:
         constraints:
           - node.hostname == leg
     dns: ["8.8.8.8"]
-    links:
-      - "master-rabbitmq:master-rabbitmq"
+    depends_on:
+      - "masterrabbitmq"
     environment:
       RABBITMQ_DEFAULT_USER: "admin"
       RABBITMQ_DEFAULT_PASS: "Phaish9ohbaidei6oole"
@@ -39,8 +39,8 @@ services:
       - /var/ocr/docker-compose/scripts/:/opt/ocr/
     dns: ["8.8.8.8"]
     depends_on:
-      - master-rabbitmq
-    command: "/opt/ocr/open-ocr-preprocessor -amqp_uri amqp://admin:Phaish9ohbaidei6oole@master-rabbitmq/ -preprocessor stroke-width-transform"
+      - masterrabbitmq
+    command: "/opt/ocr/open-ocr-preprocessor -amqp_uri amqp://admin:Phaish9ohbaidei6oole@masterrabbitmq/ -preprocessor stroke-width-transform"
 
   # Start OCR worker
   openocrworker:
@@ -51,8 +51,8 @@ services:
       - /var/ocr/docker-compose/scripts/:/opt/ocr/
     dns: ["8.8.8.8"]
     depends_on:
-      - master-rabbitmq
-    command: "/opt/ocr/open-ocr-worker -amqp_uri amqp://admin:Phaish9ohbaidei6oole@master-rabbitmq/"
+      - masterrabbitmq
+    command: "/opt/ocr/open-ocr-worker -amqp_uri amqp://admin:Phaish9ohbaidei6oole@masterrabbitmq/"
     environment: 
       GOOGLE_APPLICATION_CREDENTIALS: "/opt/ocr/apivision.json"
 
@@ -67,7 +67,7 @@ services:
       - "8888:8888"
     dns: ["8.8.8.8"]
     depends_on:
-      - master-rabbitmq
+      - masterrabbitmq
       - openocrworker
       - strokewidthtransform
-    command: "/opt/ocr/open-ocr-httpd -amqp_uri amqp://admin:Phaish9ohbaidei6oole@master-rabbitmq/ -http_port 8888"
+    command: "/opt/ocr/open-ocr-httpd -amqp_uri amqp://admin:Phaish9ohbaidei6oole@masterrabbitmq/ -http_port 8888"
