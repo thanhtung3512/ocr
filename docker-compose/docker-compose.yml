@@ -11,9 +11,7 @@ services:
         constraints:
           - node.hostname == heel
     networks:
-      master-rabbitmq:
-        aliases:
-          - master-rabbitmq
+      - overlay
     ports:
       - "5672:5672"
       - "15672:15672" #Management Server
@@ -41,7 +39,7 @@ services:
       - /var/ocr/docker-compose/scripts/:/opt/ocr/
     dns: ["8.8.8.8"]
     networks:
-      - master-rabbitmq
+      - overlay
     depends_on:
       - master-rabbitmq
     command: "/opt/ocr/open-ocr-preprocessor -amqp_uri amqp://admin:Phaish9ohbaidei6oole@master-rabbitmq/ -preprocessor stroke-width-transform"
@@ -53,9 +51,8 @@ services:
       replicas: 5
     volumes:
       - /var/ocr/docker-compose/scripts/:/opt/ocr/
-    dns: ["8.8.8.8"]
     networks:
-      - master-rabbitmq
+      - overlay
     depends_on:
       - master-rabbitmq
     command: "/opt/ocr/open-ocr-worker -amqp_uri amqp://admin:Phaish9ohbaidei6oole@master-rabbitmq/"
@@ -71,14 +68,12 @@ services:
       - /var/ocr/docker-compose/scripts/:/opt/ocr/
     ports:
       - "8888:8888"
-    dns: ["8.8.8.8"]
     networks:
-      - master-rabbitmq
+      - overlay
     depends_on:
       - master-rabbitmq
       - openocrworker
       - strokewidthtransform
     command: "/opt/ocr/open-ocr-httpd -amqp_uri amqp://admin:Phaish9ohbaidei6oole@master-rabbitmq/ -http_port 8888"
 networks:
-  master-rabbitmq:
-    external: true
+  overlay:
