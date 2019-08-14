@@ -10,6 +10,7 @@ services:
       placement:
         constraints:
           - node.hostname == heel
+    dns: ["8.8.8.8"]
     networks:
       - overlay
     ports:
@@ -27,6 +28,9 @@ services:
       placement:
         constraints:
           - node.hostname == leg
+    dns: ["8.8.8.8"]
+    networks:
+      - overlay
     links:
       - "master-rabbitmq:master-rabbitmq"
     environment:
