@@ -2,11 +2,14 @@ version: '3.7'
 
 services:
 # Start messaging broker
-  rabbitmq:
+  master-rabbitmq:
     image: rabbitmq:3.6.5-management
-    hostname: "heel"
+    hostname: "master-rabbitmq"
     deploy: 
-      replicas: 2
+      mode: global
+      placement:
+        constraints:
+          - node.hostname == heel
     networks:
       - overlay
     ports:
@@ -16,7 +19,19 @@ services:
       RABBITMQ_DEFAULT_USER: "admin"
       RABBITMQ_DEFAULT_PASS: "Phaish9ohbaidei6oole"
       #RABBITMQ_DISK_FREE_LIMIT: "1GB"
-
+  slave-rabbitmq:
+    image: rabbitmq:3.6.5-management
+    hostname: "slave-rabbitmq"
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.hostname == leg
+    links:
+      - "master-rabbitmq:master-rabbitmq"
+    environment:
+      RABBITMQ_DEFAULT_USER: "admin"
+      RABBITMQ_DEFAULT_PASS: "Phaish9ohbaidei6oole"
   # Start transformation worker
   strokewidthtransform:
     image: thanhtung3512/open-ocr-preprocessor
@@ -26,8 +41,8 @@ services:
     networks:
       - overlay
     depends_on:
-      - rabbitmq
-    command: "/opt/ocr/open-ocr-preprocessor -amqp_uri amqp://admin:Phaish9ohbaidei6oole@heel/ -preprocessor stroke-width-transform"
+      - master-rabbitmq
+    command: "/opt/ocr/open-ocr-preprocessor -amqp_uri amqp://admin:Phaish9ohbaidei6oole@master-rabbitmq/ -preprocessor stroke-width-transform"
 
   # Start OCR worker
   openocrworker:
@@ -40,8 +55,8 @@ services:
     networks:
       - overlay
     depends_on:
-      - rabbitmq
-    command: "/opt/ocr/open-ocr-worker -amqp_uri amqp://admin:Phaish9ohbaidei6oole@heel/"
+      - master-rabbitmq
+    command: "/opt/ocr/open-ocr-worker -amqp_uri amqp://admin:Phaish9ohbaidei6oole@master-rabbitmq/"
     environment: 
       GOOGLE_APPLICATION_CREDENTIALS: "/opt/ocr/apivision.json"
 
@@ -58,9 +73,9 @@ services:
     networks:
       - overlay
     depends_on:
-      - rabbitmq
+      - master-rabbitmq
       - openocrworker
       - strokewidthtransform
-    command: "/opt/ocr/open-ocr-httpd -amqp_uri amqp://admin:Phaish9ohbaidei6oole@heel/ -http_port 8888"
+    command: "/opt/ocr/open-ocr-httpd -amqp_uri amqp://admin:Phaish9ohbaidei6oole@master-rabbitmq/ -http_port 8888"
 networks:
   overlay:
