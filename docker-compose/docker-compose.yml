@@ -81,3 +81,4 @@ services:
     command: "/opt/ocr/open-ocr-httpd -amqp_uri amqp://admin:Phaish9ohbaidei6oole@master-rabbitmq/ -http_port 8888"
 networks:
   overlay:
+    external: true
