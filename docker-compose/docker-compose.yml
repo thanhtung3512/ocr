@@ -27,8 +27,8 @@ services:
       placement:
         constraints:
           - node.hostname == leg
-    links:
-      - "master-rabbitmq:master-rabbitmq"
+    depends_on:
+      - master-rabbitmq
     environment:
       RABBITMQ_DEFAULT_USER: "admin"
       RABBITMQ_DEFAULT_PASS: "Phaish9ohbaidei6oole"
