@@ -38,8 +38,6 @@ services:
     volumes:
       - /var/ocr/docker-compose/scripts/:/opt/ocr/
     dns: ["8.8.8.8"]
-    networks:
-      - overlay
     depends_on:
       - master-rabbitmq
     command: "/opt/ocr/open-ocr-preprocessor -amqp_uri amqp://admin:Phaish9ohbaidei6oole@master-rabbitmq/ -preprocessor stroke-width-transform"
