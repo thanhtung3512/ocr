@@ -11,8 +11,6 @@ services:
         constraints:
           - node.hostname == heel
     dns: ["8.8.8.8"]
-    networks:
-      - overlay
     ports:
       - "5672:5672"
       - "15672:15672" #Management Server
@@ -29,8 +27,6 @@ services:
         constraints:
           - node.hostname == leg
     dns: ["8.8.8.8"]
-    networks:
-      - overlay
     links:
       - "master-rabbitmq:master-rabbitmq"
     environment:
@@ -56,8 +52,6 @@ services:
     volumes:
       - /var/ocr/docker-compose/scripts/:/opt/ocr/
     dns: ["8.8.8.8"]
-    networks:
-      - overlay
     depends_on:
       - master-rabbitmq
     command: "/opt/ocr/open-ocr-worker -amqp_uri amqp://admin:Phaish9ohbaidei6oole@master-rabbitmq/"
@@ -74,12 +68,8 @@ services:
     ports:
       - "8888:8888"
     dns: ["8.8.8.8"]
-    networks:
-      - overlay
     depends_on:
       - master-rabbitmq
       - openocrworker
       - strokewidthtransform
     command: "/opt/ocr/open-ocr-httpd -amqp_uri amqp://admin:Phaish9ohbaidei6oole@master-rabbitmq/ -http_port 8888"
-networks:
-  overlay:
