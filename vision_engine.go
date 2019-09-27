@@ -17,6 +17,7 @@ import (
 
 type VisionEngine struct {
 	Annotations 		[]*pb.EntityAnnotation
+	ObjAnnotations 		[]*pb.LocalizedObjectAnnotation
 	Tags 				*nlu.AnalysisResults
 	Translation			string
 }
@@ -85,12 +86,30 @@ func Vision(ocrRequest OcrRequest) ([]*pb.EntityAnnotation, error) {
     return texts, err
 }
 
+func VisionObj(ocrRequest OcrRequest) ([]*pb.LocalizedObjectAnnotation, error) {
+	ctx := context.Background()
+    client, err := vision.NewImageAnnotatorClient(ctx)
+    failOnError("Failed to create client: %v", err)
+    defer client.Close()
+
+    image, err := vision.NewImageFromReader(bytes.NewReader(ocrRequest.ImgBytes))
+    failOnError("Failed to create image: %v", err)
+
+    objects, err := client.LocalizeObjects(ctx, image, nil)
+	failOnError("Failed to detect objects: %v", err)
+
+    return objects, err
+}
+
 func (m VisionEngine) ProcessRequest(ocrRequest OcrRequest) (OcrResult, error) {
 
     // Creates a VISION client.
     texts, err := Vision(ocrRequest)
     
 	visionEngine := VisionEngine{Annotations: texts}
+
+    objects, err := VisionObj(ocrRequest)
+	visionEngine.ObjAnnotations = objects
 
 	if err == nil && len(texts) > 0 {
 	    text := texts[0].GetDescription()
